@@ -3,6 +3,7 @@ from typing import Literal
 
 
 class EvidenceItem(BaseModel):
+
     document: str = Field(
         description="Patient document containing the evidence"
     )
@@ -13,11 +14,17 @@ class EvidenceItem(BaseModel):
     )
 
     text: str = Field(
-        description="Exact relevant evidence text"
+        description="Relevant evidence text"
     )
 
 
+class EvidenceResponse(BaseModel):
+
+    evidence: list[EvidenceItem]
+
+
 class EvidenceMatch(BaseModel):
+
     requirement_id: str
 
     status: Literal[
