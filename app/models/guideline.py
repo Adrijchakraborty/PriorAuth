@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 
 class GuidelineRequirement(BaseModel):
     requirement_id: str = Field(
-        description="Unique requirement ID such as REQ-001"
+        description="Unique ID such as REQ-001"
     )
 
     description: str = Field(
