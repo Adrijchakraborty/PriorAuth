@@ -1,8 +1,10 @@
+streamlit
+langgraph
 langchain
 langchain-groq
 langchain-core
 pydantic
 python-dotenv
 pymupdf
-
+chromadb
 pytest
