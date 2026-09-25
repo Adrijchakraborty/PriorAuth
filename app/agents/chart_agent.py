@@ -1,7 +1,10 @@
 from langchain_core.prompts import ChatPromptTemplate
 
-from app.models.evidence import EvidenceItem
 from app.services.groq_client import get_llm
+from app.models.evidence import (
+    EvidenceItem,
+    EvidenceResponse
+)
 
 
 class ChartAgent:
@@ -54,17 +57,14 @@ TEXT:
                     """
 You are the Chart Reviewer in a Prior Authorization system.
 
-Your job is to identify evidence from patient records
-that is relevant to an insurance requirement.
+Use ONLY the supplied patient records.
 
-Rules:
+Do not invent patient information.
 
-1. Use ONLY the supplied patient records.
-2. Do not invent patient information.
-3. Do not make unsupported medical conclusions.
-4. Return only evidence relevant to the requirement.
-5. Preserve the source document.
-6. If no useful evidence exists, return an empty list.
+Return only evidence that is relevant to the
+insurance requirement.
+
+If there is no relevant evidence, return an empty list.
 """
                 ),
                 (
@@ -90,9 +90,9 @@ PATIENT RECORDS:
             EvidenceResponse
         )
 
-        chain = prompt | structured_llm
-
-        result = chain.invoke(
+        result = (
+            prompt | structured_llm
+        ).invoke(
             {
                 "requirement": requirement,
                 "evidence_required": evidence_required,
@@ -101,9 +101,3 @@ PATIENT RECORDS:
         )
 
         return result.evidence
-
-
-class EvidenceResponse:
-
-    # Placeholder intentionally removed below.
-    pass
