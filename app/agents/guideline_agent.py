@@ -18,20 +18,20 @@ IMPORTANT RULES:
 3. Do not invent requirements.
 4. Preserve the meaning of the insurance policy.
 5. Identify whether each requirement is mandatory.
-6. Identify what evidence would be needed to prove the requirement.
-7. Record the page number containing the requirement.
+6. Identify what evidence would be needed to prove each requirement.
+7. Record the source document and page number.
 8. If information is unclear, represent the uncertainty rather
    than inventing information.
+9. Do not decide whether a patient qualifies.
+10. Do not interpret patient information.
 
-You are extracting policy requirements, NOT deciding whether
-a patient qualifies.
+You are extracting policy requirements only.
 
 Return the information using the requested structured schema.
 """
 
 
 def create_guideline_agent():
-    """Create the structured Guidelines Reader chain."""
 
     llm = get_llm()
 
@@ -41,36 +41,37 @@ def create_guideline_agent():
 
     prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", SYSTEM_PROMPT),
+            (
+                "system",
+                SYSTEM_PROMPT
+            ),
             (
                 "human",
                 """
 Analyze the following insurance policy.
 
+The requested treatment is:
+
+{treatment_name}
+
 Extract all prior authorization requirements
-relevant to the treatment described in the document.
+relevant to this treatment.
 
 INSURANCE POLICY:
 
 {policy_text}
 """
-            ),
+            )
         ]
     )
 
     return prompt | structured_llm
 
 
-def run_guideline_agent(pdf_path: str) -> Guideline:
-    """
-    Run Agent 1 against an insurance guideline PDF.
-
-    Args:
-        pdf_path: Path to insurance guideline PDF.
-
-    Returns:
-        Structured Guideline object.
-    """
+def run_guideline_agent(
+    pdf_path: str,
+    treatment_name: str
+) -> Guideline:
 
     policy_text = extract_pdf_text(pdf_path)
 
@@ -78,7 +79,8 @@ def run_guideline_agent(pdf_path: str) -> Guideline:
 
     result = agent.invoke(
         {
-            "policy_text": policy_text
+            "policy_text": policy_text,
+            "treatment_name": treatment_name
         }
     )
 
