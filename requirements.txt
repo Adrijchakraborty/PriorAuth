@@ -1,9 +1,11 @@
 streamlit
 langgraph
 langchain
-langchain-openai
+langchain-core
+langchain-groq
 pydantic
 python-dotenv
 pymupdf
 chromadb
+sentence-transformers
 pytest
