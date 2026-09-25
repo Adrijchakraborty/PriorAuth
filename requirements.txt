@@ -1,8 +1,7 @@
 streamlit
 langgraph
 langchain
-langchain-groq
-langchain-core
+langchain-openai
 pydantic
 python-dotenv
 pymupdf
