@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 
 class GuidelineRequirement(BaseModel):
     requirement_id: str = Field(
-        description="Unique ID such as REQ-001"
+        description="Unique requirement ID such as REQ-001"
     )
 
     description: str = Field(
@@ -15,10 +15,15 @@ class GuidelineRequirement(BaseModel):
     )
 
     evidence_required: list[str] = Field(
-        description="Types of evidence needed to satisfy the requirement"
+        description="Types of patient evidence needed to satisfy the requirement"
     )
 
-    source_page: int = Field(
+    source_document: str = Field(
+        description="Document containing the requirement"
+    )
+
+    source_page: int | None = Field(
+        default=None,
         description="Page number where the requirement was found"
     )
 
