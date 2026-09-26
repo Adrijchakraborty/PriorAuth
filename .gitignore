@@ -1,6 +1,7 @@
 .env
-.venv/
+venv/
 _pycache_/
 *.pyc
 vectorstore/*
 .pytest_cache/
+.env.env 
